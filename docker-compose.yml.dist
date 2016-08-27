@@ -1,17 +1,17 @@
-drupalphp70web:
+php70web:
   build: .
   ports:
     - "81:80"
     - "444:443"
   links:
-   - drupalphp70db:database
-drupalphp70db:
+   - php70db:database
+php70db:
   image: mysql:5.7
   volumes_from:
-    - mysql-drupal-php70
+    - mysql-php70
   environment:
     TERM: xterm
     MYSQL_ROOT_PASSWORD: password
     MYSQL_USER: user
     MYSQL_PASSWORD: password
-    MYSQL_DATABASE: drupalphp70
+    MYSQL_DATABASE: php70

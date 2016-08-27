@@ -79,7 +79,7 @@ RUN wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_
 ENV COMPOSER_HOME /home/ubuntu/.composer
 RUN echo "export COMPOSER_HOME=/home/ubuntu/.composer" >> /etc/bash.bashrc && \
     php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === 'a52be7b8724e47499b039d53415953cc3d5b459b9d9c0308301f867921c19efc623b81dfef8fc2be194a5cf56945d223') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"\
     php composer-setup.php --filename=composer --install-dir=/usr/local/bin && \
     php -r "unlink('composer-setup.php');"
 
@@ -96,9 +96,8 @@ RUN echo "export COMPOSER_HOME=/home/ubuntu/.composer" >> /etc/bash.bashrc && \
 
 RUN wget -O /var/www/opcache.php https://raw.githubusercontent.com/rlerdorf/opcache-status/master/opcache.php
 
-# Add tools installed via composer to PATH and Drupal logs to syslog
-RUN echo "export PATH=/home/ubuntu/.composer/vendor/bin:$PATH" >> /etc/bash.bashrc && \
-    echo "local0.* /var/log/drupal.log" >> /etc/rsyslog.conf
+# Add tools installed via composer
+RUN echo "export PATH=/home/ubuntu/.composer/vendor/bin:$PATH" >> /etc/bash.bashrc
 
 # Production PHP settings.
 RUN sed -ri 's/^;opcache.enable=0/opcache.enable=1/g' /etc/php/7.0/fpm/php.ini && \
@@ -120,7 +119,6 @@ RUN echo "export TERM=xterm" >> /etc/bash.bashrc
 RUN mkdir -p /var/www/log && \
     ln -s /var/log/apache2/error.log /var/www/log/ && \
     ln -s /var/log/apache2/access.log /var/www/log/ && \
-    ln -s /var/log/drupal.log /var/www/log/ && \
     ln -s /var/log/syslog /var/www/log/
 
 # Install Redis
