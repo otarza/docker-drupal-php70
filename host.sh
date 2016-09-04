@@ -2,7 +2,7 @@
 
 # Project variables.
 URL=php70.example.com
-CONTAINER_NAME=dockerdrupalphp70_drupalphp70web_1
+CONTAINER_NAME=dockerphp70_php70web_1
 
 # DO NOT EDIT BELOW
 
@@ -10,10 +10,9 @@ CONTAINER_NAME=dockerdrupalphp70_drupalphp70web_1
 sudo sed -i_bak -e "/$URL/d" /etc/hosts
 
 # Add IP address to hosts file.
-sudo bash -c "echo $(sudo docker inspect -f '{{ .NetworkSettings.IPAddress }}' \
+sudo bash -c "echo $( docker inspect -f '{{ .NetworkSettings.Networks.bridge.IPAddress }}' \
 $CONTAINER_NAME) $URL >> /etc/hosts"
 
 echo
 echo Login to container: sudo docker exec -it $CONTAINER_NAME su - ubuntu
 echo Opening site: xdg-open http://$URL
-
