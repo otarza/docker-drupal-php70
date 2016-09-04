@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Andrew Holgate <andrewholgate@yahoo.com>
+MAINTAINER otarza <otar.zakalashvili@gmail.com>
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
 
